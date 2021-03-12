@@ -1,7 +1,8 @@
 import React from "react";
-import { PropsClass, StateClass } from "../my-types";
+import { MessageProps, CounterState } from "../my-types";
+import { NestedComponentUsingState } from "./NestedComponentUsingState";
 
-export class ComponentWithState extends React.Component<PropsClass, StateClass> {
+export class ComponentWithState extends React.Component<MessageProps, CounterState> {
   state = { count: 0 };
 
   increaseCounter = () => {
@@ -14,6 +15,7 @@ export class ComponentWithState extends React.Component<PropsClass, StateClass> 
       <React.Fragment>
         <div>{this.state.count}</div>
         <button onClick={this.increaseCounter}>{this.props.message}</button>
+        <NestedComponentUsingState monkeyCount={this.state.count} />
       </React.Fragment>
     );
   }

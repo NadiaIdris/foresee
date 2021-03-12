@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/App.css";
-import { PropsClass } from "./my-types";
+import { MessageProps } from "./my-types";
 import { ComponentWithState } from "./components/ComponentWithState";
 import { ComponentWithoutState } from "./components/ComponentWithoutState";
 
