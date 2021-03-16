@@ -1,9 +1,14 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from '../App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import App from "../App";
+// https://github.com/testing-library/jest-dom/
+import "@testing-library/jest-dom";
 
-test('renders learn react link', () => {
+test("renders App component", () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  // https://testing-library.com/docs/queries/about/#textmatch
+  const element = screen.getByText(/Hello World/);
+  // console.log(element.innerHTML);
+  expect(element).not.toBeNull();
+  expect(element).toBeInTheDocument();
 });

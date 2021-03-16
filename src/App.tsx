@@ -7,7 +7,7 @@ import { ComponentWithoutState } from "./components/ComponentWithoutState";
 function App() {
   return (
     <div>
-      <h1>Helloooooo!!!!</h1>
+      <h1>Hello World</h1>
       <ComponentWithState message={"Click me to see the count go up"} />
       <ComponentWithoutState message={"State sucks! - by Negative Component"} />
     </div>
