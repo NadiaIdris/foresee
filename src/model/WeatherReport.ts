@@ -1,7 +1,6 @@
 import { Conditions } from "./Conditions";
 import { DailyOverview } from "./DailyOverview";
-import { CounterState } from "../my-types";
-import { data } from "../tests/onecall_api_sample_response";
+import axios from "axios";
 
 /**
  * This is the main model that holds all the weather report data for a given location.
@@ -16,6 +15,8 @@ export class WeatherReport {
     readonly dayOverviews: Array<DailyOverview>,
     readonly timezoneOffset: number,
   ) {}
+
+  static readonly API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
 
   static cleanupWeatherDataFromAPI = (data: any): WeatherReport => {
     const timezoneOffset: number = data.timezone_offset;
@@ -39,16 +40,20 @@ export class WeatherReport {
     return new WeatherReport(currentConditions, dailyOverviews, timezoneOffset);
   };
 
-  static fetchWeatherDataFromOpenWeatherMap = async (callback: (newState: WeatherReport) => void) => {
-    // TODO: make the fetch call to the OWM onecall API, and pass the API_KEY
-    // TODO: then get a response and pass it to cleanupWeatherDataFromAPI() which returns a new WeatherReport
-    // TODO: call the setStateFunction() with the WeatherReport
-    console.log("🔥 fetchWeatherDataFromAPI called with callback", callback);
-    const report = WeatherReport.cleanupWeatherDataFromAPI(data);
-    console.log("🔥 report", report);
-    callback(report);
-    console.log("🔥 fetchWeatherDataFromAPI() just called setState() method on your component!");
+  static fetchWeatherDataFromOpenWeatherMap = async (saveWeatherReportToState: SaveWeatherReportToState) => {
+    const lat = "37.3875";
+    const lon = "-122.0831";
+    const exclude = "exclude=minutely,alerts";
+    const apikey = `appid=${WeatherReport.API_KEY}`;
+    const endpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&${exclude}&${apikey}`;
+    axios.get(endpoint).then((res) => {
+      const data: any = res.data;
+      const weatherReport: WeatherReport = WeatherReport.cleanupWeatherDataFromAPI(data);
+      saveWeatherReportToState(weatherReport);
+    });
   };
 }
 
-const API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
+export interface SaveWeatherReportToState {
+  (newState: WeatherReport): void;
+}

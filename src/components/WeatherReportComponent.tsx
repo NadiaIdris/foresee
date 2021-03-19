@@ -1,7 +1,7 @@
 import React from "react";
 import { WeatherReport } from "../model/WeatherReport";
 
-export class AnotherComponentWithState extends React.Component<{} /* no props */, WeatherReport> {
+export class WeatherReportComponent extends React.Component<{} /* no props */, WeatherReport> {
   render() {
     return (
       <div

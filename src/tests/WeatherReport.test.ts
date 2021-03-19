@@ -16,10 +16,6 @@ test("Given a setState function , when fetchWeatherDataFromAPI is called, it cal
   //WeatherReport.fetchWeatherDataFromAPI(/*...*/);
 });
 
-test("2 Given a setState function , when fetchWeatherDataFromAPI is called, it calls setState with a WeatherReport", () => {
-  //WeatherReport.fetchWeatherDataFromAPI(/*..*/);
-});
-
 test("Given onecall_api_sample_response.ts JSON data, when cleanupWeatherDataFromAPI is called, it returns WeatherReport", () => {
   const report = WeatherReport.cleanupWeatherDataFromAPI(data);
 

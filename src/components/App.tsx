@@ -4,7 +4,7 @@ import { MessageProps } from "../my-types";
 import { ComponentWithState } from "./ComponentWithState";
 import { ComponentWithoutState } from "./ComponentWithoutState";
 import { WeatherReport } from "../model/WeatherReport";
-import { AnotherComponentWithState } from "./AnotherComponentWithState";
+import { WeatherReportComponent } from "./WeatherReportComponent";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
       <h1>Hello World</h1>
       <ComponentWithState message={"Click me to see the count go up"} />
       <ComponentWithoutState message={"State sucks! - by Negative Component"} />
-      <AnotherComponentWithState />
+      <WeatherReportComponent />
     </div>
   );
 }
