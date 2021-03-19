@@ -1,4 +1,4 @@
-import { cleanupWeatherDataFromAPI, WeatherReport } from "../model/WeatherReport";
+import { WeatherReport } from "../model/WeatherReport";
 import { data } from "./onecall_api_sample_response";
 
 /**
@@ -12,10 +12,16 @@ test("Given onecall_api_sample_response data.ts, lat property exists", () => {
 
 test("Given Onecall API url, when fetching the data, it return a JSON blob with the weather data in it", () => {});
 
-test("Given a setState function , when fetchWeatherDataFromAPI is called, it calls setState with a WeatherReport", () => {});
+test("Given a setState function , when fetchWeatherDataFromAPI is called, it calls setState with a WeatherReport", () => {
+  //WeatherReport.fetchWeatherDataFromAPI(/*...*/);
+});
+
+test("2 Given a setState function , when fetchWeatherDataFromAPI is called, it calls setState with a WeatherReport", () => {
+  //WeatherReport.fetchWeatherDataFromAPI(/*..*/);
+});
 
 test("Given onecall_api_sample_response.ts JSON data, when cleanupWeatherDataFromAPI is called, it returns WeatherReport", () => {
-  const report = cleanupWeatherDataFromAPI(data);
+  const report = WeatherReport.cleanupWeatherDataFromAPI(data);
 
   console.log(JSON.stringify(report, null, 2));
 
