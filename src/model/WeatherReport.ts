@@ -1,6 +1,7 @@
 import { Conditions } from "./Conditions";
 import { DailyOverview } from "./DailyOverview";
 import axios from "axios";
+import { SaveWeatherReportToState } from "../my-types";
 
 /**
  * This is the main model that holds all the weather report data for a given location.
@@ -40,9 +41,11 @@ export class WeatherReport {
     return new WeatherReport(currentConditions, dailyOverviews, timezoneOffset);
   };
 
-  static fetchWeatherDataFromOpenWeatherMap = async (saveWeatherReportToState: SaveWeatherReportToState) => {
-    const lat = "37.3875";
-    const lon = "-122.0831";
+  static fetchWeatherDataFromOpenWeatherMap = async (
+    saveWeatherReportToState: SaveWeatherReportToState,
+    lat: number = 37.3875,
+    lon: number = -122.0831,
+  ) => {
     const exclude = "exclude=minutely,alerts";
     const apikey = `appid=${WeatherReport.API_KEY}`;
     const endpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&${exclude}&${apikey}`;
@@ -52,8 +55,4 @@ export class WeatherReport {
       saveWeatherReportToState(weatherReport);
     });
   };
-}
-
-export interface SaveWeatherReportToState {
-  (newState: WeatherReport): void;
 }
