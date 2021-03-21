@@ -1,9 +1,16 @@
 import React from "react";
 import { setupSearch } from "./setupSearch";
 
-class SearchBarAlt extends React.Component {
+export interface FetchWeatherReportFunction {
+  (lat: number, lon: number): void;
+}
+export interface SearchBarAltProps {
+  fetchWeatherReport: FetchWeatherReportFunction;
+}
+
+export class SearchBarAlt extends React.Component<SearchBarAltProps, {}> {
   componentDidMount() {
-    setupSearch();
+    setupSearch(this.props.fetchWeatherReport);
   }
 
   render() {
@@ -19,5 +26,3 @@ class SearchBarAlt extends React.Component {
     );
   }
 }
-
-export default SearchBarAlt;
