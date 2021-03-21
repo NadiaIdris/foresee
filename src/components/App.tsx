@@ -6,6 +6,7 @@ import { ComponentWithoutState } from "./ComponentWithoutState";
 import { WeatherReport } from "../model/WeatherReport";
 import { WeatherReportComponent } from "./WeatherReportComponent";
 import SearchBar from "./SearchBar";
+import SearchBarAlt from "./SearchBarAlt.js";
 
 class App extends React.Component {
   // TODO pass this method down as a props to <SearchBar/>
@@ -27,7 +28,7 @@ class App extends React.Component {
         <ComponentWithState message={"Click me to see the count go up"} />
         <ComponentWithoutState message={"State sucks! - by Negative Component"} />
         <WeatherReportComponent />
-        <SearchBar />
+        <SearchBarAlt />
       </div>
     );
   }
