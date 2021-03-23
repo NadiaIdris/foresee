@@ -1,23 +1,28 @@
 import React from "react";
-import algoliasearch from "algoliasearch/lite";
-import { InstantSearch } from "react-instantsearch-dom";
-import Places from "../places/widget.js";
+import { setupSearchAndFetchWeatherData } from "../algolia-api/setupSearchAndFetchWeatherData";
 
-const applicationID: string = "pl8HQG0189VY";
-const searchOnlyAPIKey: string = "2563ab38a8ce07a8f0c9081eac73122e";
-const searchClient = algoliasearch(applicationID, searchOnlyAPIKey);
+export interface FetchWeatherReportFunction {
+  (lat: number, lon: number): void;
+}
+export interface SearchBarProps {
+  fetchWeatherReport: FetchWeatherReportFunction;
+}
 
-const SearchBar = () => {
-  return (
-    <InstantSearch searchClient={searchClient} indexName="weather-search-bar">
-      <Places
-        defaultRefinement={{
-          lat: 37.7793,
-          lng: -122.419,
-        }}
-      />
-    </InstantSearch>
-  );
-};
+export class SearchBar extends React.Component<SearchBarProps, {}> {
+  componentDidMount() {
+    setupSearchAndFetchWeatherData(this.props.fetchWeatherReport);
+  }
 
-export default SearchBar;
+  render() {
+    return (
+      <div className="search-panel">
+        <div className="search-panel__filters">
+          <div id="clear"></div>
+        </div>
+        <div className="search-panel__results">
+          <input id="searchbox" placeholder="Search location ..." />
+        </div>
+      </div>
+    );
+  }
+}

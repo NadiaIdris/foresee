@@ -33,7 +33,7 @@ export class WeatherReport {
         daily.weather[0].icon,
         daily.dt,
         timezoneOffset,
-        index == 1,
+        index === 1,
       );
       dailyOverviews.push(dailyOverview);
     }

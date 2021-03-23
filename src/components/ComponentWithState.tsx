@@ -1,7 +1,6 @@
 import React from "react";
 import { MessageProps, CounterState } from "../my-types";
 import { NestedComponentUsingState } from "./NestedComponentUsingState";
-import { WeatherReport } from "../model/WeatherReport";
 
 export class ComponentWithState extends React.Component<MessageProps, CounterState> {
   state = { count: 0 };
