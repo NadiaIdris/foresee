@@ -1,16 +1,16 @@
-import { convertKelvinToCelsius, convertKelvinToFahrenheit } from "./utils";
+import { kelvinToCelsius, kelvinToFahrenheit } from "./utils";
 
 export class Conditions {
-  readonly temperatureInKelvin: number;
-  readonly temperatureInFahrenheit: number;
-  readonly temperatureInCelsius: number;
+  readonly tempInKelvin: number;
+  readonly tempInFahrenheit: number;
+  readonly tempInCelsius: number;
   readonly icon: string;
   readonly formattedDate: string;
 
-  constructor(temperatureInKelvin: number, icon: string, formattedDate: string) {
-    this.temperatureInKelvin = temperatureInKelvin;
-    this.temperatureInFahrenheit = convertKelvinToFahrenheit(this.temperatureInKelvin);
-    this.temperatureInCelsius = convertKelvinToCelsius(this.temperatureInKelvin);
+  constructor(tempInKelvin: number, icon: string, formattedDate: string) {
+    this.tempInKelvin = tempInKelvin;
+    this.tempInFahrenheit = kelvinToFahrenheit(this.tempInKelvin);
+    this.tempInCelsius = kelvinToCelsius(this.tempInKelvin);
     this.icon = icon;
     this.formattedDate = formattedDate;
   }

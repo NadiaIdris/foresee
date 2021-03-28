@@ -5,10 +5,10 @@ export class DailyOverview {
   readonly time: number;
   readonly offset: number;
 
-  constructor(temperatureInKelvin: number, icon: string, time: number, offset: number, isTomorrow: boolean = false) {
+  constructor(tempInKelvin: number, icon: string, time: number, offset: number, isTomorrow: boolean = false) {
     this.time = time;
     this.offset = offset;
-    this.dailyConditions = new Conditions(temperatureInKelvin, icon, isTomorrow ? "Tomorrow" : this.formatDate());
+    this.dailyConditions = new Conditions(tempInKelvin, icon, isTomorrow ? "Tomorrow" : this.formatDate());
   }
 
   /**
@@ -21,7 +21,7 @@ export class DailyOverview {
     let monthIndex = date.getUTCMonth(); // returns 0 - 11.
     const year = date.getUTCFullYear();
 
-    // Check if hours > 24, then increment day by 1. If hours < 0, then
+    // Check if hours >= 24, then increment day by 1. If hours < 0, then
     // decrement day by 1.
     let hours = this.calcHours();
     if (hours < 0) {

@@ -1,32 +1,47 @@
 import React from "react";
 import "../styles/App.css";
-import { ComponentWithState } from "./ComponentWithState";
-import { ComponentWithoutState } from "./ComponentWithoutState";
-import { WeatherReportComponent } from "./WeatherReportComponent";
-import { SearchBar } from "./SearchBar";
+import { SaveWeatherReportToState, SearchBar } from "./SearchBar";
+import { WeatherReport } from "../model/WeatherReport";
+import axios from "axios";
 
 class App extends React.Component {
-  // TODO pass this method down as a props to <SearchBar/>
-  fetchWeatherReport = (lat: number, lon: number) => {
-    // TODO const saveWeatherReportToState = (newState: WeatherReport) => { this.setState(newState); }
-    // TODO WeatherReport.fetchWeatherDataFromOpenWeatherMap(saveWeatherReportToState, lat, lon)
-    console.log(`TODO App.fetchWeatherReport for ${lat}, ${lon}`);
+  // This method is a higher order function that is passed down as a props to <SearchBar/>
+  saveWeatherReportToState: SaveWeatherReportToState = (newWeatherReport: WeatherReport) => {
+    this.setState(newWeatherReport, () => {
+      console.log(this.state);
+    });
+  };
+
+  fetchWeatherDataFromOpenWeather = async (lat: number = 40.7398, lon: number = -73.9354) => {
+    const exclude = "exclude=minutely,alerts";
+    const apikey = `appid=${WeatherReport.API_KEY}`;
+    const endpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&${exclude}&${apikey}`;
+
+    axios
+      .get(endpoint)
+      .then((res) => {
+        const data: any = res.data;
+        const weatherReport: WeatherReport = WeatherReport.cleanupWeatherDataFromApi(data);
+        this.saveWeatherReportToState(weatherReport);
+      })
+      .catch((err) => {
+        if (err.response) {
+          // How to handle API errors: https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
+          // TODO: handle the error messages
+          // client received an error response (5xx, 4xx)
+        } else if (err.request) {
+          // client never received a response, or request never left
+        } else {
+          // anything else
+        }
+      });
   };
 
   render() {
     return (
-      <div
-        style={{
-          fontFamily: "Hack Nerd Font",
-          backgroundColor: "lightgoldenrodyellow",
-          padding: "0.5rem",
-        }}
-      >
+      <div>
         <h1>Hello World</h1>
-        <ComponentWithState message={"Click me to see the count go up"} />
-        <ComponentWithoutState message={"State sucks! - by Negative Component"} />
-        <WeatherReportComponent />
-        <SearchBar fetchWeatherReport={this.fetchWeatherReport} />
+        <SearchBar fetchWeatherDataFromOpenWeather={this.fetchWeatherDataFromOpenWeather} />
       </div>
     );
   }

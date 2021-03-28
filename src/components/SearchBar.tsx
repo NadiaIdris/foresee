@@ -1,16 +1,22 @@
 import React from "react";
 import { setupSearchAndFetchWeatherData } from "../algolia-api/setupSearchAndFetchWeatherData";
+import { WeatherReport } from "../model/WeatherReport";
 
-export interface FetchWeatherReportFunction {
+export interface SearchBarProps {
+  fetchWeatherDataFromOpenWeather: FetchWeatherDataFromOpenWeather;
+}
+
+export interface FetchWeatherDataFromOpenWeather {
   (lat: number, lon: number): void;
 }
-export interface SearchBarProps {
-  fetchWeatherReport: FetchWeatherReportFunction;
+
+export interface SaveWeatherReportToState {
+  (newWeatherReport: WeatherReport): void;
 }
 
 export class SearchBar extends React.Component<SearchBarProps, {}> {
   componentDidMount() {
-    setupSearchAndFetchWeatherData(this.props.fetchWeatherReport);
+    setupSearchAndFetchWeatherData(this.props.fetchWeatherDataFromOpenWeather);
   }
 
   render() {

@@ -17,7 +17,7 @@ test("Given a setState function , when fetchWeatherDataFromAPI is called, it cal
 });
 
 test("Given onecall_api_sample_response.ts JSON data, when cleanupWeatherDataFromAPI is called, it returns WeatherReport", () => {
-  const report = WeatherReport.cleanupWeatherDataFromAPI(data);
+  const report = WeatherReport.cleanupWeatherDataFromApi(data);
 
   console.log(JSON.stringify(report, null, 2));
 

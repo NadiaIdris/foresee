@@ -1,7 +1,5 @@
 import { Conditions } from "./Conditions";
 import { DailyOverview } from "./DailyOverview";
-import axios from "axios";
-import { SaveWeatherReportToState } from "../my-types";
 
 /**
  * This is the main model that holds all the weather report data for a given location.
@@ -10,16 +8,20 @@ import { SaveWeatherReportToState } from "../my-types";
  *
  * Docs on one-call-api endpoint: https://openweathermap.org/api/one-call-api
  */
+
 export class WeatherReport {
   constructor(
     readonly currentConditions: Conditions,
     readonly dayOverviews: Array<DailyOverview>,
+    // TODO: readonly hourOverviews: Array<HourlyInfo>,
     readonly timezoneOffset: number,
   ) {}
 
   static readonly API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
 
-  static cleanupWeatherDataFromAPI = (data: any): WeatherReport => {
+  // static methods can be written outside of this class. Adding it here because it's related to WeatherReport class.
+  // static methods are not methods of an instances, but a method of the whole class.
+  static cleanupWeatherDataFromApi = (data: any): WeatherReport => {
     const timezoneOffset: number = data.timezone_offset;
 
     const currentConditions: Conditions = new Conditions(data.current.temp, data.current.weather["0"].icon, "Now");
@@ -39,20 +41,5 @@ export class WeatherReport {
     }
 
     return new WeatherReport(currentConditions, dailyOverviews, timezoneOffset);
-  };
-
-  static fetchWeatherDataFromOpenWeatherMap = async (
-    saveWeatherReportToState: SaveWeatherReportToState,
-    lat: number = 37.3875,
-    lon: number = -122.0831,
-  ) => {
-    const exclude = "exclude=minutely,alerts";
-    const apikey = `appid=${WeatherReport.API_KEY}`;
-    const endpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&${exclude}&${apikey}`;
-    axios.get(endpoint).then((res) => {
-      const data: any = res.data;
-      const weatherReport: WeatherReport = WeatherReport.cleanupWeatherDataFromAPI(data);
-      saveWeatherReportToState(weatherReport);
-    });
   };
 }

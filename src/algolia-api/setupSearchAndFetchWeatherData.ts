@@ -3,16 +3,37 @@ import algoliasearch from "algoliasearch/lite";
 import instantsearch from "instantsearch.js";
 // @ts-ignore
 import { places } from "instantsearch.js/es/widgets";
-import { FetchWeatherReportFunction } from "../components/SearchBar";
 import isEmpty from "lodash.isempty";
+import { FetchWeatherDataFromOpenWeather } from "../components/SearchBar";
+
 const placesJS = require("places.js");
 
+// Constants.
 const weatherAppDataKey = "weather";
+
+// Fetch the weather report after user has selected the lat / lon.
+const getLatLonAndFetchWeatherData = (
+  uiState: any,
+  fetchWeatherDataFromOpenWeather: FetchWeatherDataFromOpenWeather,
+) => {
+  // If no location is typed in the search bar, do not execute the code below.
+  const location = uiState[weatherAppDataKey];
+  if (isEmpty(location)) return;
+
+  const positionArray: Array<string> = location.places.position.split(",");
+  const lat: number = parseFloat(positionArray[0]);
+  const lon: number = parseFloat(positionArray[1]);
+
+  console.log("lat=", lat);
+  console.log("lon=", lon);
+  fetchWeatherDataFromOpenWeather(lat, lon);
+};
+
 /**
  * Imports: https://www.algolia.com/doc/guides/building-search-ui/installation/js/
  * Sample code for places: https://codesandbox.io/s/github/algolia/doc-code-samples/tree/master/InstantSearch.js/places?file=/src/app.js
  */
-export const setupSearchAndFetchWeatherData = (fetchWeatherReport: FetchWeatherReportFunction) => {
+export const setupSearchAndFetchWeatherData = (fetchWeatherDataFromOpenWeather: FetchWeatherDataFromOpenWeather) => {
   const applicationID = "pl8HQG0189VY";
   const searchOnlyAPIKey = "2563ab38a8ce07a8f0c9081eac73122e";
   const searchClient = algoliasearch(applicationID, searchOnlyAPIKey);
@@ -27,7 +48,7 @@ export const setupSearchAndFetchWeatherData = (fetchWeatherReport: FetchWeatherR
     ) {
       // Update the UI - https://www.algolia.com/doc/api-reference/widgets/instantsearch/js/#widget-param-onstatechange
       setUiState(uiState);
-      getLatLonAndFetchWeatherData(uiState, fetchWeatherReport);
+      getLatLonAndFetchWeatherData(uiState, fetchWeatherDataFromOpenWeather);
     },
   });
 
@@ -39,17 +60,4 @@ export const setupSearchAndFetchWeatherData = (fetchWeatherReport: FetchWeatherR
   ]);
 
   search.start();
-};
-
-const getLatLonAndFetchWeatherData = (uiState: any, fetchWeatherReport: FetchWeatherReportFunction) => {
-  // If no location is typed in the search bar, do not execute the code below.
-  const location = uiState[weatherAppDataKey];
-  if (isEmpty(location)) return;
-
-  const positionArray: Array<string> = location.places.position.split(",");
-  const lat: number = parseFloat(positionArray[0]);
-  const lon: number = parseFloat(positionArray[1]);
-  console.log("lat=", lat);
-  console.log("lon=", lon);
-  fetchWeatherReport(lat, lon);
 };
